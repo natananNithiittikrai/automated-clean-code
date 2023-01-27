@@ -9,3 +9,16 @@ def add_numbers(x: int, y: int) -> int:
       (int). The sum of the two numbers.
     """
     return x + y
+
+
+def subtract_number(x: int, y: int) -> int:
+    """Subtract two numbers.
+
+    Args:
+        x:
+        y:
+
+    Returns:
+        x-y
+    """
+    return x - y
