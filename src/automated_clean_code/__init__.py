@@ -168,5 +168,5 @@ def histlib(args: list[str]) -> None:  # pragma: no cover
     lines = get_lines_from_file(filename)
     counter = get_counter_from_list(lines)
     min_max = find_min_max(counter)
-    print(f"Min Key = {min_max.min_key} with count = {min_max.min_counter}")
-    print(f"Max Key = {min_max.max_key} with count = {min_max.max_counter}")
+    print(f"Min Key = {min_max.min.key} with count = {min_max.min.count}")
+    print(f"Max Key = {min_max.max.key} with count = {min_max.max.count}")
