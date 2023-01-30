@@ -118,6 +118,32 @@ def get_counter_from_list(lines: list) -> dict[str, int]:
     return counter
 
 
+def find_min_bar(counter: dict) -> Bar:
+    """Find min key and its corresponding values.
+
+    Args:
+        counter (dict): dictionary mapping from character to its occurrence
+
+    Returns:
+        (Bar). the min key and count.
+    """
+    min_key = min(counter, key=counter.get)
+    return Bar(min_key, counter[min_key])
+
+
+def find_max_bar(counter: dict) -> Bar:
+    """Find max key and its corresponding values.
+
+    Args:
+        counter (dict): dictionary mapping from character to its occurrence
+
+    Returns:
+        (Bar). the max key and count.
+    """
+    max_key = max(counter, key=counter.get)
+    return Bar(max_key, counter[max_key])
+
+
 def find_min_max(counter: dict) -> MinMax:
     """Find min and max key and its corresponding values.
 
@@ -127,16 +153,9 @@ def find_min_max(counter: dict) -> MinMax:
     Returns:
         (MinMax). the min and max keys and counts.
     """
-    min_key, max_key = [None] * 2
-    min_counter, max_counter = [0] * 2
-    for k, v in counter.items():
-        if max_key is None or v > max_counter:
-            max_key = k
-            max_counter = v
-        if min_key is None or v < min_counter:
-            min_key = k
-            min_counter = v
-    return MinMax(min=Bar(min_key, min_counter), max=Bar(max_key, max_counter))
+    min_bar = find_min_bar(counter)
+    max_bar = find_max_bar(counter)
+    return MinMax(min=min_bar, max=max_bar)
 
 
 def histlib(args: list[str]) -> None:  # pragma: no cover
