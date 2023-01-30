@@ -1,4 +1,33 @@
 import argparse
+from dataclasses import dataclass
+
+
+@dataclass
+class Bar:
+    """
+    A class used to represent a bar of histogram.
+
+    Attributes:
+        key (str): a character to represent
+        count (int): a count of the key occurrence
+    """
+
+    key: str
+    count: int
+
+
+@dataclass
+class MinMax:
+    """
+    A class used to represent min and max bars in the histogram.
+
+    Attributes:
+        min (Bar): a character to represent
+        max (Bar): a count of the key occurrence
+    """
+
+    min: Bar
+    max: Bar
 
 
 def add_numbers(x: int, y: int) -> int:
@@ -55,7 +84,7 @@ def clean_line(s: str) -> str:
     return s.lower().strip()
 
 
-def get_lines_from_file(filename: str) -> list:
+def get_lines_from_file(filename: str) -> list[str]:
     """Get a list of line in the file.
 
     Args:a
@@ -70,7 +99,7 @@ def get_lines_from_file(filename: str) -> list:
     return lines
 
 
-def get_counter_from_list(lines: list) -> dict:
+def get_counter_from_list(lines: list) -> dict[str, int]:
     """Get counter dictionary from list of lines.
 
     Args:
@@ -89,25 +118,44 @@ def get_counter_from_list(lines: list) -> dict:
     return counter
 
 
-def find_min_max(counter: dict) -> tuple:
+def find_min_bar(counter: dict) -> Bar:
+    """Find min key and its corresponding values.
+
+    Args:
+        counter (dict): dictionary mapping from character to its occurrence
+
+    Returns:
+        (Bar). the min key and count.
+    """
+    min_key = min(counter, key=counter.get)
+    return Bar(min_key, counter[min_key])
+
+
+def find_max_bar(counter: dict) -> Bar:
+    """Find max key and its corresponding values.
+
+    Args:
+        counter (dict): dictionary mapping from character to its occurrence
+
+    Returns:
+        (Bar). the max key and count.
+    """
+    max_key = max(counter, key=counter.get)
+    return Bar(max_key, counter[max_key])
+
+
+def find_min_max(counter: dict) -> MinMax:
     """Find min and max key and its corresponding values.
 
     Args:
         counter (dict): dictionary mapping from character to its occurrence
 
     Returns:
-        (tuple). tuple in the form of (min_key, min_counter, max_key, max_counter)
+        (MinMax). the min and max keys and counts.
     """
-    min_key, max_key = [None] * 2
-    min_counter, max_counter = [0] * 2
-    for k, v in counter.items():
-        if max_key is None or v > max_counter:
-            max_key = k
-            max_counter = v
-        if min_key is None or v < min_counter:
-            min_key = k
-            min_counter = v
-    return min_key, min_counter, max_key, max_counter
+    min_bar = find_min_bar(counter)
+    max_bar = find_max_bar(counter)
+    return MinMax(min=min_bar, max=max_bar)
 
 
 def histlib(args: list[str]) -> None:  # pragma: no cover
@@ -119,6 +167,6 @@ def histlib(args: list[str]) -> None:  # pragma: no cover
     filename = get_filename_from_args(args)
     lines = get_lines_from_file(filename)
     counter = get_counter_from_list(lines)
-    min_key, min_counter, max_key, max_counter = find_min_max(counter)
-    print(f"Min Key = {min_key} with count = {min_counter}")
-    print(f"Max Key = {max_key} with count = {max_counter}")
+    min_max = find_min_max(counter)
+    print(f"Min Key = {min_max.min_key} with count = {min_max.min_counter}")
+    print(f"Max Key = {min_max.max_key} with count = {min_max.max_counter}")
