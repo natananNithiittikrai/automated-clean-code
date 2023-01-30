@@ -18,4 +18,8 @@ def test_get_counter_from_list():
 
 
 def test_find_min_max():
-    assert automated_clean_code.find_min_max({"t": 2, "e": 1, "s": 1}) in [("e", 1, "t", 2), ("s", 1, "t", 2)]
+    min_max = automated_clean_code.find_min_max({"t": 2, "e": 1, "s": 1})
+    assert min_max.min.key in ["e", "s"]
+    assert min_max.min.count == 1
+    assert min_max.max.key == "t"
+    assert min_max.max.count == 2
