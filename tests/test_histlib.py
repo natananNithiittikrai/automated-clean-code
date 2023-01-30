@@ -17,6 +17,18 @@ def test_get_counter_from_list():
     assert automated_clean_code.get_counter_from_list(["t", "e", "s", "t"]) == {"t": 2, "e": 1, "s": 1}
 
 
+def test_find_min_bar():
+    min_bar = automated_clean_code.find_min_bar({"t": 2, "e": 1, "s": 1})
+    assert min_bar.key in ["e", "s"]
+    assert min_bar.count == 1
+
+
+def test_find_max_bar():
+    max_bar = automated_clean_code.find_max_bar({"t": 2, "e": 1, "s": 1})
+    assert max_bar.key == "t"
+    assert max_bar.count == 2
+
+
 def test_find_min_max():
     min_max = automated_clean_code.find_min_max({"t": 2, "e": 1, "s": 1})
     assert min_max.min.key in ["e", "s"]
